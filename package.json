@@ -6,7 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:tokens": "node scripts/check-tokens.mjs",
+    "check:scope": "node scripts/check-scope.mjs",
+    "check:routes": "node scripts/check-routes.mjs",
+    "check:rules": "node scripts/check-rules.mjs",
+    "check:figma": "node scripts/check-figma.mjs",
+    "check:flow": "node scripts/check-flow.mjs",
+    "gate": "node scripts/gate.mjs"
   },
   "dependencies": {
     "next": "16.4.6",
