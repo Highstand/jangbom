@@ -32,11 +32,13 @@ export const frequent = {
   productIds: ["fresh-milk", "egg", "tofu"],
 };
 
-/** 검색 결과 · "우유" */
+/**
+ * 검색 · 처음 검색어는 Figma 화면(3. 검색 결과)과 같은 "우유".
+ * 상품 이름에 검색어가 들어 있는 상품을 보여 주고, 품절 상품이 결과에 있으면
+ * alternativeId 상품을 "대신 이 상품 어때요?" 아래로 옮긴다.
+ */
 export const search = {
   query: "우유",
-  summary: "12개 중 9개 내일 아침 도착",
-  productIds: ["fresh-milk", "organic-milk", "low-fat-milk"],
   alternativeId: "lactose-free-milk",
 };
 
