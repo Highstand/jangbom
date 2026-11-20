@@ -1,14 +1,10 @@
-import type { Address, Product } from "./types";
+import type { Address } from "./types";
 
-/** 목업 데이터 · Figma 화면(774:1144)에 적힌 값 그대로 */
-export const products: Record<string, Product> = {
-  "fresh-milk": { id: "fresh-milk", name: "신선한 우유", volume: "1,000mL", price: 2980, arrival: "confirmed", image: "/images/products/fresh-milk.jpg", purchaseCount: 6 },
-  egg: { id: "egg", name: "계란", volume: "10구", price: 4990, arrival: "confirmed", image: "/images/products/egg.jpg", purchaseCount: 5 },
-  tofu: { id: "tofu", name: "두부", volume: "300g", price: 1890, arrival: "confirmed", image: "/images/products/tofu.jpg", purchaseCount: 4 },
-  "organic-milk": { id: "organic-milk", name: "유기농 우유", volume: "900mL", price: 3200, arrival: "unavailable", image: "/images/products/organic-milk.jpg" },
-  "low-fat-milk": { id: "low-fat-milk", name: "저지방 우유", volume: "1,000mL", price: 2750, arrival: "confirmed", image: "/images/products/low-fat-milk.jpg", soldOut: true },
-  "lactose-free-milk": { id: "lactose-free-milk", name: "락토프리 우유", volume: "1,000mL", price: 2890, arrival: "confirmed", image: "/images/products/lactose-free-milk.jpg" },
-};
+/**
+ * 아직 Supabase 테이블이 없는 값만 남긴 목업 · Figma 화면(774:1144)에 적힌 값 그대로.
+ * 상품 · 자주 사는 상품은 Supabase products · favorites (src/data/catalog.ts),
+ * 주문은 Supabase orders (src/data/orders.ts).
+ */
 
 export const addresses: Address[] = [
   { id: "home", label: "집", street: "서울시 ○○구 ○○로 12", district: "서울시 ○○구", detail: "101동 1001호" },
@@ -19,38 +15,20 @@ export const delivery = {
   deadline: "23:00",
   arrival: "내일 아침 7시 전",
   remaining: "1시간 32분",
-  exception: "일부 상품은 22:00 마감이에요",
-  /** 마감이 다른 상품 (유기농 우유) */
-  exceptionDeadline: "22:00",
   shipping: 3000,
   paymentMethod: "저장된 카드 · 1234",
 };
 
-/** 홈 · 자주 산 상품 */
-export const frequent = {
-  lastOrder: "11/12 주문 · 3개 · 모두 내일 아침 확정",
-  productIds: ["fresh-milk", "egg", "tofu"],
-};
+/** 홈 · 자주 산 상품 위 지난 주문 날짜 (orders 읽기를 막아 두어 목업) */
+export const lastOrderDate = "11/12";
 
-/**
- * 검색 · 처음 검색어는 Figma 화면(3. 검색 결과)과 같은 "우유".
- * 상품 이름에 검색어가 들어 있는 상품을 보여 주고, 품절 상품이 결과에 있으면
- * alternativeId 상품을 "대신 이 상품 어때요?" 아래로 옮긴다.
- */
-export const search = {
-  query: "우유",
-  alternativeId: "lactose-free-milk",
-};
+/** 검색 · 처음 검색어는 Figma 화면(3. 검색 결과)과 같은 "우유" */
+export const search = { query: "우유" };
 
-/** 장바구니 첫 상태 (4. 장바구니) */
+/** 장바구니 첫 상태 (4. 장바구니) · 상품 정보는 products에서 채운다 */
 export const initialCart = [
   { id: "organic-milk", qty: 1 },
   { id: "fresh-milk", qty: 1 },
   { id: "tofu", qty: 1 },
   { id: "egg", qty: 1 },
 ];
-
-/** 불가 상품 → 대체 상품 */
-export const alternatives: Record<string, string> = { "organic-milk": "lactose-free-milk" };
-
-export const order = { number: "20261120-0001" };

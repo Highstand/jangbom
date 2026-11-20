@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
+import { getCatalog } from "@/data/catalog";
 import { StoreProvider } from "@/data/store";
 import "./globals.css";
 
@@ -14,11 +15,13 @@ export const metadata: Metadata = {
   description: "담기 전에 내일 아침 도착을 알려 주는 장보기",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Supabase products · favorites (서버에서 캐시해 불러옴 · src/data/catalog.ts)
+  const catalog = await getCatalog();
   return (
     <html lang="ko" className="antialiased">
       <body className={`${notoSansKr.className} bg-bg-page text-text-primary`}>
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider catalog={catalog}>{children}</StoreProvider>
       </body>
     </html>
   );

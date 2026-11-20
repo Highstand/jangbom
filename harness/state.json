@@ -1,6 +1,6 @@
 {
   "stage": 4,
-  "phase": "screens",
+  "phase": "supabase",
   "failures": {
     "G1": 0,
     "G2": 0,

@@ -10,15 +10,16 @@ import { Screen } from "@/components/Screen";
 import { SearchInput } from "@/components/SearchInput";
 import { SectionTitle } from "@/components/SectionTitle";
 import { useAddressSheet } from "@/components/useAddressSheet";
-import { delivery, frequent, products } from "@/data/mock";
+import { delivery, lastOrderDate } from "@/data/mock";
 import { useStore } from "@/data/store";
 
 const cardIds: Record<string, string> = { "fresh-milk": "788:1426", egg: "788:1438", tofu: "788:1450" };
 
-/** 1. 홈 (774:1145) */
+/** 1. 홈 (774:1145) · 자주 산 상품은 Supabase favorites + products */
 export default function HomePage() {
-  const { address, deliverableCount, unavailable } = useStore();
+  const { address, deliverableCount, bannerException, favorites } = useStore();
   const { openSheet, sheet } = useAddressSheet();
+  const allConfirmed = favorites.every(({ product }) => product.arrival === "confirmed" && !product.soldOut);
 
   return (
     <Screen
@@ -34,7 +35,7 @@ export default function HomePage() {
         deadline={delivery.deadline}
         arrival={delivery.arrival}
         remaining={delivery.remaining}
-        exception={unavailable.length > 0 ? delivery.exception : undefined}
+        exception={bannerException}
         region={`${address.label} · ${address.district}`}
         onChangeAddress={openSheet}
       />
@@ -49,20 +50,17 @@ export default function HomePage() {
         }
       />
       <p data-figma="782:1336" className="w-full text-caption text-text-tertiary">
-        {frequent.lastOrder}
+        {lastOrderDate} 주문 · {favorites.length}개{allConfirmed ? " · 모두 내일 아침 확정" : ""}
       </p>
-      {frequent.productIds.map((id) => {
-        const p = products[id];
-        return (
-          <ProductCard
-            key={id}
-            figmaId={cardIds[id]}
-            product={p}
-            details={`${p.volume} · ${p.purchaseCount}번 샀어요`}
-            action={<ProductAction product={p} />}
-          />
-        );
-      })}
+      {favorites.map(({ product: p, purchaseCount }) => (
+        <ProductCard
+          key={p.id}
+          figmaId={cardIds[p.id]}
+          product={p}
+          details={`${p.volume} · ${purchaseCount}번 샀어요`}
+          action={<ProductAction product={p} />}
+        />
+      ))}
       {sheet}
     </Screen>
   );

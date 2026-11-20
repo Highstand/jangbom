@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { Screen } from "@/components/Screen";
 import { SearchInput } from "@/components/SearchInput";
 import { AlternativeTitle } from "@/components/SectionTitle";
-import { products, search } from "@/data/mock";
+import { search } from "@/data/mock";
 import { useStore } from "@/data/store";
 
 /** Figma 3. 검색 결과(검색어 "우유")에 있는 카드의 노드 id */
@@ -26,14 +26,15 @@ const cardIds: Record<string, string> = {
  * 결과가 없으면 목록만 비운다 (빈 상태 문구는 이번 범위 밖 · CLAUDE.md 1장).
  */
 export default function SearchPage() {
-  const { deliverableCount } = useStore();
+  const { deliverableCount, products } = useStore();
   const [query, setQuery] = useState(search.query);
 
+  // Supabase products를 이름으로 거른다. 품절 상품의 대체 상품(substitute_id)이 결과에 있으면 아래로 옮긴다
   const keyword = query.trim();
   const matches = Object.values(products).filter((p) => p.name.includes(keyword));
-  const alt = products[search.alternativeId];
-  const showAlt = matches.some((p) => p.soldOut) && matches.includes(alt);
-  const list = showAlt ? matches.filter((p) => p.id !== alt.id) : matches;
+  const altId = matches.find((p) => p.soldOut && p.substituteId)?.substituteId;
+  const alt = altId ? matches.find((p) => p.id === altId) : undefined;
+  const list = alt ? matches.filter((p) => p.id !== alt.id) : matches;
   const arriving = matches.filter((p) => p.arrival === "confirmed" && !p.soldOut).length;
 
   return (
@@ -52,7 +53,7 @@ export default function SearchPage() {
       {list.map((p) => (
         <ProductCard key={p.id} figmaId={cardIds[p.id]} product={p} action={<ProductAction product={p} />} />
       ))}
-      {showAlt && (
+      {alt && (
         <>
           <AlternativeTitle figmaId="788:1717" />
           <ProductCard figmaId={cardIds[alt.id]} product={alt} action={<ProductAction product={alt} />} />

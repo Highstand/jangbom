@@ -14,7 +14,7 @@ import { SearchInput } from "@/components/SearchInput";
 import { AlternativeTitle, SectionTitle } from "@/components/SectionTitle";
 import { SummaryCard } from "@/components/SummaryCard";
 import { useAddressSheet } from "@/components/useAddressSheet";
-import { alternatives, delivery, products } from "@/data/mock";
+import { delivery } from "@/data/mock";
 import { useStore } from "@/data/store";
 import { won } from "@/data/types";
 
@@ -42,12 +42,19 @@ const ids = {
 
 /** 4. 장바구니 · 4-1. 대체 상품으로 바꾼 뒤 */
 export default function CartPage() {
-  const { address, lines, deliverable, unavailable, deliverableCount, subtotal, swapped, swap, undoSwap, setQty, remove } = useStore();
+  const { products, address, lines, deliverable, unavailable, deliverableCount, subtotal, bannerException, swapped, swap, undoSwap, setQty, remove } =
+    useStore();
   const { openSheet, sheet } = useAddressSheet();
   const id = swapped ? ids.after : ids.before;
   const total = subtotal + delivery.shipping;
   const inCart = new Set(lines.map((l) => l.id));
-  const alternative = unavailable.map((u) => ({ from: u.product, to: products[alternatives[u.product.id]] })).find((a) => a.to && !inCart.has(a.to.id));
+  // 불가 상품의 대체 상품은 Supabase products.substitute_id
+  const alternative = unavailable
+    .flatMap((u) => {
+      const to = u.product.substituteId ? products[u.product.substituteId] : undefined;
+      return to && !inCart.has(to.id) ? [{ from: u.product, to }] : [];
+    })
+    .at(0);
 
   return (
     <Screen
@@ -65,7 +72,7 @@ export default function CartPage() {
         deadline={delivery.deadline}
         arrival={delivery.arrival}
         remaining={delivery.remaining}
-        exception={unavailable.length > 0 ? delivery.exception : undefined}
+        exception={bannerException}
         region={`${address.label} · ${address.district}`}
         onChangeAddress={openSheet}
       />
@@ -73,7 +80,10 @@ export default function CartPage() {
         <Notice
           key={`notice-${product.id}`}
           figmaId="774:1361"
-          lines={[`${product.name} ${qty}개는 이번 주문에서 빠져요`, `이 상품만 ${delivery.exceptionDeadline} 마감이 지났어요`]}
+          lines={[
+            `${product.name} ${qty}개는 이번 주문에서 빠져요`,
+            product.cutoff ? `이 상품만 ${product.cutoff} 마감이 지났어요` : "이 상품은 내일 아침 도착이 안 돼요",
+          ]}
         />
       ))}
       {unavailable.map(({ product }) => (
