@@ -1,5 +1,10 @@
 {
-  "stage": 1,
+  "stage": 4,
   "phase": "screens",
-  "failures": {}
+  "failures": {
+    "G1": 0,
+    "G2": 0,
+    "G3": 0,
+    "G4": 0
+  }
 }

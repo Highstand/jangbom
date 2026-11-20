@@ -1,26 +1,166 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * 장봄 디자인 토큰 · docs/tokens.json 1:1
+ * Tailwind 기본 색·간격·둥글기·글자 크기·글꼴은 initial로 끄고 토큰 이름 그대로 쓴다.
+ *   --color-text-primary → text-text-primary · --spacing-16 → p-16 · --radius-card → rounded-card
+ */
+@theme {
+  --color-*: initial;
+  --spacing: initial;
+  --spacing-*: initial;
+  --radius-*: initial;
+  --text-*: initial;
+  --font-*: initial;
+
+  /* color · primitive */
+  --color-gray-0: #ffffff;
+  --color-gray-100: #f7f7f7;
+  --color-gray-200: #f0f1f4;
+  --color-gray-300: #dadde0;
+  --color-gray-400: #99a1a8;
+  --color-gray-500: #757d86;
+  --color-gray-600: #50585f;
+  --color-gray-800: #21242a;
+  --color-gray-900: #131518;
+  --color-green-50: #eef7f1;
+  --color-green-100: #d9efe1;
+  --color-green-300: #bcd638;
+  --color-green-600: #2a8550;
+  --color-green-700: #23774a;
+  --color-orange-50: #fff5eb;
+  --color-orange-700: #b45309;
+  --color-red-50: #fff0f3;
+  --color-red-500: #e30036;
+  --color-yellow-50: #fffbe0;
+  --color-yellow-300: #ffef79;
+
+  /* color · semantic · text */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-placeholder: var(--color-gray-400);
+  --color-text-on-primary: var(--color-gray-0);
+  --color-text-accent: var(--color-green-600);
+  --color-text-warning: var(--color-orange-700);
+  --color-text-error: var(--color-red-500);
+  --color-text-disabled: var(--color-gray-500);
+
+  /* color · semantic · bg */
+  --color-bg-card: var(--color-gray-0);
+  --color-bg-page: var(--color-gray-100);
+  --color-bg-subtle: var(--color-gray-200);
+  --color-bg-accent: var(--color-yellow-300);
+  --color-bg-accent-subtle: var(--color-yellow-50);
+  --color-bg-warning-subtle: var(--color-orange-50);
+  --color-bg-error-subtle: var(--color-red-50);
+  --color-bg-inverse: var(--color-gray-800);
+  --color-bg-highlight: var(--color-green-50);
+
+  /* color · semantic · fill */
+  --color-fill-primary: var(--color-green-600);
+  --color-fill-primary-pressed: var(--color-green-700);
+  --color-fill-secondary: var(--color-gray-900);
+  --color-fill-tertiary: var(--color-gray-200);
+  --color-fill-disabled: var(--color-gray-300);
+
+  /* color · semantic · border */
+  --color-border-default: var(--color-gray-300);
+  --color-border-subtle: var(--color-gray-200);
+  --color-border-strong: var(--color-gray-900);
+  --color-border-focus: var(--color-green-600);
+  --color-border-error: var(--color-red-500);
+  --color-border-divider: var(--color-gray-200);
+
+  /* color · semantic · icon */
+  --color-icon-default: var(--color-gray-600);
+  --color-icon-strong: var(--color-gray-900);
+  --color-icon-accent: var(--color-green-600);
+  --color-icon-disabled: var(--color-gray-300);
+  --color-icon-subtle: var(--color-gray-400);
+
+  /* spacing · primitive */
+  --spacing-0: 0px;
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+
+  /* spacing · semantic */
+  --spacing-page-horizontal: var(--spacing-16);
+  --spacing-stack-sm: var(--spacing-8);
+  --spacing-stack-md: var(--spacing-16);
+  --spacing-stack-lg: var(--spacing-24);
+  --spacing-inline-sm: var(--spacing-4);
+  --spacing-inline-md: var(--spacing-8);
+  --spacing-control-x: var(--spacing-16);
+  --spacing-control-y: var(--spacing-12);
+
+  /* radius · primitive */
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-full: 999px;
+
+  /* radius · semantic */
+  --radius-button: var(--radius-8);
+  --radius-control: var(--radius-8);
+  --radius-card: var(--radius-12);
+  --radius-pill: var(--radius-full);
+  --radius-media: var(--radius-4);
+
+  /* typography · primitive */
+  --font-base: "Noto Sans KR", sans-serif;
+  --text-12: 12px;
+  --text-14: 14px;
+  --text-16: 16px;
+  --text-18: 18px;
+  --text-20: 20px;
+  --text-24: 24px;
+
+  /* figma-dimensions:start */
+  /* Figma 텍스트 스타일 (글자 크기는 토큰 참조, 줄 높이는 허용 목록) */
+  --text-h1: var(--text-24);
+  --text-h1--line-height: 32px;
+  --text-h1--font-weight: 700;
+  --text-h3: var(--text-18);
+  --text-h3--line-height: 26px;
+  --text-h3--font-weight: 700;
+  --text-body-strong: var(--text-16);
+  --text-body-strong--line-height: 24px;
+  --text-body-strong--font-weight: 600;
+  --text-body-small: var(--text-14);
+  --text-body-small--line-height: 20px;
+  --text-body-small--font-weight: 400;
+  --text-body-small-strong: var(--text-14);
+  --text-body-small-strong--line-height: 21px;
+  --text-body-small-strong--font-weight: 600;
+  --text-caption: var(--text-12);
+  --text-caption--line-height: 16px;
+  --text-caption--font-weight: 400;
+
+  /* Figma 컴포넌트 치수 (허용 목록) */
+  --spacing-5: 5px;
+  --spacing-14: 14px;
+  --spacing-18: 18px;
+  --spacing-28: 28px;
+  --spacing-48: 48px;
+  --spacing-52: 52px;
+  --spacing-56: 56px;
+  --spacing-64: 64px;
+  --spacing-390: 390px;
+  /* figma-dimensions:end */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-family: var(--font-base);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
 }
