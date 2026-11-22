@@ -6,7 +6,8 @@
 
 | 구분 | 링크 | 쓰는 범위 | 읽기 확인 |
 |---|---|---|---|
-| 화면 링크 | [장봄 UI 화면 · Section 8 (774:1144)](https://www.figma.com/design/BNfArdvZ4QyEIRKngl042J/-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9--CJ-%EB%A7%A4%EC%B9%98%EC%97%85--%EC%83%9D%EC%84%B1%ED%98%95-AI%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-UX-UI-%EC%84%A4%EA%B3%84?node-id=774-1144) | 컴포넌트 · 토큰 · 화면 구성의 근거 | Figma 연결로 읽음 |
+| 화면 링크 v3 | [V3 장봄 UI 화면 (1364:11787)](https://www.figma.com/design/BNfArdvZ4QyEIRKngl042J/-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9--CJ-%EB%A7%A4%EC%B9%98%EC%97%85--%EC%83%9D%EC%84%B1%ED%98%95-AI%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-UX-UI-%EC%84%A4%EA%B3%84?node-id=1364-11787) | 지금 기준. `docs/v3-spec.md`(장바구니 빠지는 상품 · 홈 받는 곳 행 · 결제 금액) 반영 화면 6개. 컴포넌트 · 토큰 · 화면 구성의 근거 | Figma 연결로 읽음 |
+| 화면 링크 v2 | [장봄 UI 화면 · Section 8 (774:1144)](https://www.figma.com/design/BNfArdvZ4QyEIRKngl042J/-%ED%85%8C%EC%8A%A4%ED%8A%B8%EC%9A%A9--CJ-%EB%A7%A4%EC%B9%98%EC%97%85--%EC%83%9D%EC%84%B1%ED%98%95-AI%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%9C-UX-UI-%EC%84%A4%EA%B3%84?node-id=774-1144) | 이전 기준(v2). 기록용으로 남김. v3와 다르면 v3를 따른다 | Figma 연결로 읽음 |
 | Make 링크 | [장봄 모바일 프로토타입 제작 (Make)](https://www.figma.com/make/rzjuUJvnPhQaNU3N5eqjoi/%EC%9E%A5%EB%B4%84-%EB%AA%A8%EB%B0%94%EC%9D%BC-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85-%EC%A0%9C%EC%9E%91) · 공개 사이트 https://matter-dean-74935693.figma.site | 화면 이동 흐름만 참고. Make의 코드·스타일은 따르지 않음 | 공개 사이트는 자동 접근이 막혀 읽지 못함. 대신 사용자가 붙여 준 `src/App.tsx` 코드로 확인함 |
 
 ## 2. 기준 우선순위

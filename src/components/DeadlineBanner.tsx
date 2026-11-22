@@ -5,10 +5,11 @@ type DeadlineBannerProps = {
   deadline: string;
   arrival: string;
   remaining: string;
-  /** 예외 마감 줄 (17_improvements 문제 3) · 없으면 끔 */
+  /** ShowException · 예외 마감 줄 (17_improvements 문제 3) · 없으면 끔. v3: 장바구니에선 끄고 경고 박스만 말한다 */
   exception?: string;
-  region: string;
-  onChangeAddress: () => void;
+  /** 배송지역행 Type=Inline · 없으면 끔. v3: 홈은 끄고 배너 아래 Type=Row로 따로 둔다 */
+  region?: string;
+  onChangeAddress?: () => void;
 };
 
 /** 장봄/마감도착배너 (493:1005) */
@@ -24,12 +25,14 @@ export function DeadlineBanner({ figmaId, deadline, arrival, remaining, exceptio
         {arrival} 도착 · {remaining} 남음
       </p>
       {exception && <p className="text-body-small text-text-warning">{exception}</p>}
-      <div className="flex w-full items-center gap-inline-md">
-        <p className="min-w-0 flex-1 text-body-small text-text-tertiary">{region} 기준</p>
-        <Button variant="secondary" onClick={onChangeAddress}>
-          주소 바꾸기
-        </Button>
-      </div>
+      {region && (
+        <div className="flex w-full items-center gap-inline-md">
+          <p className="min-w-0 flex-1 text-body-small text-text-tertiary">{region} 기준</p>
+          <Button variant="secondary" onClick={onChangeAddress}>
+            주소 바꾸기
+          </Button>
+        </div>
+      )}
     </section>
   );
 }

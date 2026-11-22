@@ -5,15 +5,19 @@
  *  1. 홈: 보이는 <main>의 첫 요소가 data-component="deadline-banner"이고 "까지 주문하면"과 "도착" 문구가 있다
  *  2. 홈·검색·장바구니·4-1: 보이는 data-component="product-card"마다
  *     data-component="arrival-badge"가 정확히 1개이고 글자가 "내일 아침 확정" 또는 "내일 아침 불가"다
+ *     (v3: 장바구니·4-1에서는 State=Excluded "이번 주문에서 빠짐"도 허용 · docs/v3-spec.md 1장)
  *  3. 같은 화면들: 상품 카드마다 /images/ 아래 이미지가 실제로 로드돼 있다 (회색 박스·빈 칸 금지)
  */
 import { openBrowser, finish } from "./lib/cdp.mjs";
 
+const BADGES = ["내일 아침 확정", "내일 아침 불가"];
+const CART_BADGES = [...BADGES, "이번 주문에서 빠짐"];
+
 const SCENES = [
   { name: "홈", path: "/" },
   { name: "검색", path: "/search" },
-  { name: "장바구니", path: "/cart" },
-  { name: "4-1 바꾼 뒤", path: "/cart", actions: ["이걸로 바꾸기"] },
+  { name: "장바구니", path: "/cart", cart: true },
+  { name: "4-1 바꾼 뒤", path: "/cart", actions: ["이걸로 바꾸기"], cart: true },
 ];
 
 const failures = [];
@@ -56,7 +60,7 @@ try {
     if (r.cards.length === 0) failures.push(`${s.name}  상품 카드(data-component="product-card")가 없음`);
     for (const c of r.cards) {
       if (c.badges.length !== 1) failures.push(`${s.name} · ${c.name}  도착배지 ${c.badges.length}개 (정확히 1개여야 함)`);
-      else if (!["내일 아침 확정", "내일 아침 불가"].includes(c.badges[0])) failures.push(`${s.name} · ${c.name}  도착배지 글자가 "${c.badges[0]}"`);
+      else if (!(s.cart ? CART_BADGES : BADGES).includes(c.badges[0])) failures.push(`${s.name} · ${c.name}  도착배지 글자가 "${c.badges[0]}"`);
       const img = c.imgs.find((i) => i.src.startsWith("/images/"));
       if (!img) failures.push(`${s.name} · ${c.name}  /images/ 상품 이미지 없음 (${c.imgs.map((i) => i.src).join(", ") || "img 없음"})`);
       else if (!img.loaded) failures.push(`${s.name} · ${c.name}  이미지 로드 실패  ${img.src}`);

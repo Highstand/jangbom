@@ -1,16 +1,20 @@
 import type { Arrival } from "@/data/types";
 
-/** 장봄/도착배지 (787:1425) · 같은 상품은 어느 화면에서나 같은 상태 */
-export function ArrivalBadge({ arrival }: { arrival: Arrival }) {
-  const unavailable = arrival === "unavailable";
+/** 장봄/도착배지 State · Excluded는 v3 (장바구니에서 이번 주문에 안 들어가는 상품, 문구 고정) */
+export type BadgeState = Arrival | "excluded";
+
+const badge: Record<BadgeState, { label: string; className: string }> = {
+  confirmed: { label: "내일 아침 확정", className: "bg-bg-subtle text-text-secondary" },
+  unavailable: { label: "내일 아침 불가", className: "bg-bg-warning-subtle text-text-warning" },
+  excluded: { label: "이번 주문에서 빠짐", className: "bg-bg-warning-subtle text-text-warning" },
+};
+
+/** 장봄/도착배지 (787:1425) · 같은 상품은 어느 화면에서나 같은 상태 · 장바구니의 불가 상품만 Excluded */
+export function ArrivalBadge({ state }: { state: BadgeState }) {
+  const { label, className } = badge[state];
   return (
-    <span
-      data-component="arrival-badge"
-      className={`shrink-0 whitespace-nowrap rounded-pill px-inline-md py-inline-sm text-caption ${
-        unavailable ? "bg-bg-warning-subtle text-text-warning" : "bg-bg-subtle text-text-secondary"
-      }`}
-    >
-      {unavailable ? "내일 아침 불가" : "내일 아침 확정"}
+    <span data-component="arrival-badge" className={`shrink-0 whitespace-nowrap rounded-pill px-inline-md py-inline-sm text-caption ${className}`}>
+      {label}
     </span>
   );
 }

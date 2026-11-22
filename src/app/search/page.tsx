@@ -14,10 +14,10 @@ import { useStore } from "@/data/store";
 
 /** Figma 3. 검색 결과(검색어 "우유")에 있는 카드의 노드 id */
 const cardIds: Record<string, string> = {
-  "fresh-milk": "788:1462",
-  "organic-milk": "788:1478",
-  "low-fat-milk": "788:1491",
-  "lactose-free-milk": "788:1503",
+  "fresh-milk": "1364:11817",
+  "organic-milk": "1364:11818",
+  "low-fat-milk": "1364:11819",
+  "lactose-free-milk": "1364:11821",
 };
 
 /**
@@ -39,15 +39,15 @@ export default function SearchPage() {
 
   return (
     <Screen
-      header={<Header title="검색" figmaId="774:1254" backHref="/" cartCount={deliverableCount} />}
+      header={<Header title="검색" figmaId="1364:11813" backHref="/" cartCount={deliverableCount} />}
       bottom={
-        <BottomContainer figmaId="774:1334">
+        <BottomContainer figmaId="1364:11822">
           <Button href="/cart">장바구니 {deliverableCount}개 보기</Button>
         </BottomContainer>
       }
     >
-      <SearchInput figmaId="774:1267" placeholder="어떤 품목을 찾으세요?" focus value={query} onChange={setQuery} />
-      <p data-figma="774:1272" className="shrink-0 whitespace-nowrap text-body-small text-text-tertiary">
+      <SearchInput figmaId="1364:11815" placeholder="어떤 품목을 찾으세요?" focus value={query} onChange={setQuery} />
+      <p data-figma="1364:11816" className="shrink-0 whitespace-nowrap text-body-small text-text-tertiary">
         {matches.length}개 중 {arriving}개 내일 아침 도착
       </p>
       {list.map((p) => (
@@ -55,7 +55,7 @@ export default function SearchPage() {
       ))}
       {alt && (
         <>
-          <AlternativeTitle figmaId="788:1717" />
+          <AlternativeTitle figmaId="1364:11820" />
           <ProductCard figmaId={cardIds[alt.id]} product={alt} action={<ProductAction product={alt} />} />
         </>
       )}

@@ -63,7 +63,7 @@
 
 | 항목 | 내용 |
 |---|---|
-| 대상 컴포넌트 | `장봄/*` 13개: 수량조절 · 상태배지 · 배송지역행 · 마감도착배너 · 배송주소 · 도착예정안내 · 금액요약 · 상품항목 · 도착배지 · 상품카드 · 섹션제목 · 대체상품제목 · 요약카드 |
+| 대상 컴포넌트 | `장봄/*` 13개 (v3 추가 Variant는 3-1장): 수량조절 · 상태배지 · 배송지역행 · 마감도착배너 · 배송주소 · 도착예정안내 · 금액요약 · 상품항목 · 도착배지 · 상품카드 · 섹션제목 · 대체상품제목 · 요약카드 |
 | 대상 속성 | 색(채움·선), 간격(항목 간격·안쪽 여백·줄바꿈 줄 간격), 둥글기(네 모서리) |
 | 기준 | 베리어블이 연결되지 않고 값이 직접 들어간 곳. 0도 포함 (기존 키트가 0을 `spacing/0`으로 연결해 둔 규칙을 따름) |
 | 결과 | 기존 8개는 모두 연결돼 있었음. 직접 들어간 값은 `12_components.md`에서 새로 만든 5개에서만 나옴 |
@@ -101,6 +101,23 @@
 | 새로 만든 베리어블 | 없음 |
 | 키트에 맞는 토큰이 없던 값 | 없음 |
 | 화면 크기 | 그대로 (홈·검색·결제 390×844, 장바구니 390×1328, 바꾼 뒤 390×1093) |
+
+## 3-1. v3에서 추가한 Variant · 속성
+
+`docs/v3-spec.md` 4장 · Figma v3(1364:11787) 기준. 새 토큰은 없고 아래 값은 모두 기존 토큰에 연결한다.
+
+| 컴포넌트 | 추가 | 이름 · 속성 | 값 · 연결 토큰 | 쓰는 곳 · 코드 |
+|---|---|---|---|---|
+| `장봄/도착배지` | Variant | `State=Excluded` (속성 없음, 문구 고정 "이번 주문에서 빠짐") | 채움 `bg/warning-subtle` · 글자 `text/warning` · `caption/caption` · 안쪽 위·아래 `spacing/inline-sm`, 좌·우 `spacing/inline-md` · `radius/pill` (State=Unavailable과 같은 틀) | 장바구니의 불가 상품 카드 · `ArrivalBadge state="excluded"` |
+| `장봄/상품카드` | 속성 값 | Type=Cart · State=Excluded + Details "○mL · 결제에 안 들어가요" | 기존 Variant. 안의 도착배지만 State=Excluded, 오른쪽은 Button Small·Text "삭제" | 장바구니 · `ProductCard excluded` |
+| `장봄/배송지역행` | Variant | `Type=Row` (기존 = `Type=Inline`) · 속성 `Address`(텍스트), `Label`(텍스트, 기본 "받는 곳") | 358×48 · 채움 `bg/card` · `radius/card` · 좌우 `spacing/16` · 항목 간격 `spacing/inline-md` · Label `body/small`·`text/tertiary` · Address `body/small-strong`·`text/primary` · 오른쪽 Button Small·Secondary "바꾸기" + Icon/chevron-right 24 · 줄 전체가 버튼 | 홈 마감도착배너 바로 아래 · `DeliveryRegionRow` |
+| `장봄/요약카드` | 속성 | `ShowExcluded` (불리언, 기본 꺼짐) · 켜면 ListRow "빠진 상품" 추가 | 줄 사이 `spacing/stack-sm` | 결제 (장바구니에 불가 상품이 남아 있을 때만) · `SummaryCard excluded` |
+
+| 기존 속성만 바꿔 쓰는 곳 (v3) | 값 |
+|---|---|
+| `장봄/마감도착배너` `ShowException` | 홈 켬 · 장바구니 끔 (장바구니는 경고 박스만 말한다) |
+| `장봄/마감도착배너` 주소 줄(배송지역행 Type=Inline) | 홈 끔 (Type=Row로 배너 아래) · 장바구니 켬 |
+| 주소 시트 제목 줄 | 키트 Header 오른쪽 슬롯(32)에 Icon/close · 변경 없이 닫힘 |
 
 ## 4. 토큰을 고른 기준
 
